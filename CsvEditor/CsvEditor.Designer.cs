@@ -69,6 +69,7 @@ namespace CsvEditor
             this.btnImportFile.TabIndex = 3;
             this.btnImportFile.Text = "Importeer";
             this.btnImportFile.UseVisualStyleBackColor = true;
+            this.btnImportFile.Click += new System.EventHandler(this.btnImportFile_Click);
             // 
             // CsvEditor
             // 
