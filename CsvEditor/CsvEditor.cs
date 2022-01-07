@@ -19,8 +19,6 @@ namespace CsvEditor
 
         private void btnImportFile_Click(object sender, EventArgs e)
         {
-            string filename = "";
-            DataTable dt = new DataTable();
 
             try
             {
@@ -36,6 +34,7 @@ namespace CsvEditor
                     //OpenCsvFile(false);
                 }
 
+                txtCsvFile.Text = Csv.xFilename;
                 dgvCsvFile.DataSource = Csv.xData;
             }
             catch (Exception ex)

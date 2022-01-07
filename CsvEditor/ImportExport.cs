@@ -15,13 +15,13 @@ namespace CsvEditor
 
         public static DataTable dtImport = new DataTable();
 
-        public static DataTable ImportCSVheader(string filename)
+        public static DataTable ImportCSVheader(string filename) //Read data in CSV file (with headers)
         {
             try
             {
                 using (TextFieldParser csvReader = new TextFieldParser(filename))
                 {
-                    csvReader.SetDelimiters(new string[] { ";" });
+                    csvReader.SetDelimiters(new string[] { ";", "," });
                     csvReader.HasFieldsEnclosedInQuotes = true;
 
                     // *** Read columns from CSV ***
@@ -63,10 +63,42 @@ namespace CsvEditor
 
         public static DataTable ImportCSVNoHeader(string filename)
         {
+            try
+            {
+                using (TextFieldParser csvReader = new TextFieldParser(filename))
+                {
+                    csvReader.SetDelimiters(new string[] { ";", "," });
+                    csvReader.HasFieldsEnclosedInQuotes = true;
+
+                    // *** Read datarows from CSV ***
+                    while (!csvReader.EndOfData)
+                    {
+                        string[] dataFields = csvReader.ReadFields();
+                        //DataRow dr = dtImport.NewRow();
+
+                        for (int i = 0; i <= dataFields.Length - 1; i++)
+                        {
+                            if (dataFields[i] == null)
+                            {
+                                //Null value found in csv
+                            }
+                            else
+                            {
+                                dtImport.Rows.Add(dataFields[i]);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
             return dtImport;
         } //TODO
 
-        public static void OpenCsvFile(bool header)
+        public static void OpenCsvFile(bool header) //Open FileDialog to choose a CSV file
         {
             try
             {
