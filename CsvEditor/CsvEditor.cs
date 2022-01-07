@@ -28,29 +28,19 @@ namespace CsvEditor
 
                 if (result == DialogResult.Yes)
                 {
-                    filename = ImportExport.OpenCsvFile();
-                    dt = ImportExport.ImportCSVheader(filename);
+                    ImportExport.OpenCsvFile(true);
                 }
                 else if (result == DialogResult.No)
                 {
                     //TODO: ImportCSVNoHeader
+                    //OpenCsvFile(false);
                 }
 
-                txtCsvFile.Text = filename;
-
-                if (dt.Rows != null && dt.Rows.ToString() != String.Empty)
-                {
-                    dgvCsvFile.DataSource = dt;
-                }
-
-                if (dgvCsvFile.Rows.Count == 0)
-                {
-                    MessageBox.Show("Geen data in csv bestand!", "Warning.", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
+                dgvCsvFile.DataSource = Csv.xData;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                MessageBox.Show($"{ex.Message}", "Error");
             }
         }
     }

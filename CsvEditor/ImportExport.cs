@@ -66,10 +66,8 @@ namespace CsvEditor
             return dtImport;
         } //TODO
 
-        public static string OpenCsvFile()
+        public static void OpenCsvFile(bool header)
         {
-            string sourceURL = "";
-
             try
             {
                 OpenFileDialog dialog = new OpenFileDialog();
@@ -79,7 +77,19 @@ namespace CsvEditor
                 {
                     if (dialog.FileName.EndsWith(".csv"))
                     {
-                        sourceURL = dialog.FileName;
+                        Csv.xFilename = dialog.FileName;
+                        DataTable dt = new DataTable();
+
+                        if (header)
+                        {
+                            dt = ImportCSVheader(Csv.xFilename);
+                        }
+                        else if (!header)
+                        {
+                            dt = ImportCSVNoHeader(Csv.xFilename);
+                        }
+
+                        Csv.xData = dt;
                     }
                     else
                     {
@@ -91,8 +101,6 @@ namespace CsvEditor
             {
                 throw;
             }
-
-            return sourceURL;
         }
         #endregion
 
