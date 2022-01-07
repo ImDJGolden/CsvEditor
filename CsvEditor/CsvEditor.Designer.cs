@@ -29,20 +29,20 @@ namespace CsvEditor
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvCsvFile = new System.Windows.Forms.DataGridView();
             this.lblCsvFile = new System.Windows.Forms.Label();
             this.txtCsvFile = new System.Windows.Forms.TextBox();
             this.btnImportFile = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCsvFile)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dgvCsvFile
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(13, 38);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(768, 571);
-            this.dataGridView1.TabIndex = 0;
+            this.dgvCsvFile.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCsvFile.Location = new System.Drawing.Point(13, 38);
+            this.dgvCsvFile.Name = "dgvCsvFile";
+            this.dgvCsvFile.Size = new System.Drawing.Size(768, 571);
+            this.dgvCsvFile.TabIndex = 0;
             // 
             // lblCsvFile
             // 
@@ -79,10 +79,10 @@ namespace CsvEditor
             this.Controls.Add(this.btnImportFile);
             this.Controls.Add(this.txtCsvFile);
             this.Controls.Add(this.lblCsvFile);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgvCsvFile);
             this.Name = "CsvEditor";
             this.Text = "CSV Editor";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCsvFile)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -90,7 +90,7 @@ namespace CsvEditor
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvCsvFile;
         private System.Windows.Forms.Label lblCsvFile;
         private System.Windows.Forms.TextBox txtCsvFile;
         private System.Windows.Forms.Button btnImportFile;

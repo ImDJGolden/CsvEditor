@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CsvEditor
 {
@@ -12,9 +13,9 @@ namespace CsvEditor
     {
         #region Import
 
-        public DataTable dtImport = new DataTable();
+        public static DataTable dtImport = new DataTable();
 
-        private DataTable ImportCSVheader(string filename)
+        public static DataTable ImportCSVheader(string filename)
         {
             try
             {
@@ -60,6 +61,39 @@ namespace CsvEditor
             return dtImport;
         }
 
+        public static DataTable ImportCSVNoHeader(string filename)
+        {
+            return dtImport;
+        } //TODO
+
+        public static string OpenCsvFile()
+        {
+            string sourceURL = "";
+
+            try
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.ShowDialog();
+
+                if (dialog.FileName != "")
+                {
+                    if (dialog.FileName.EndsWith(".csv"))
+                    {
+                        sourceURL = dialog.FileName;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Gekozen bestand is ongeldig. Kies een csv Bestand.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return sourceURL;
+        }
         #endregion
 
         #region Export
