@@ -33,22 +33,30 @@ namespace CsvEditor
             this.lblCsvFile = new System.Windows.Forms.Label();
             this.txtCsvFile = new System.Windows.Forms.TextBox();
             this.btnImportFile = new System.Windows.Forms.Button();
+            this.btnClearDgv = new System.Windows.Forms.Button();
+            this.btnMergeFile = new System.Windows.Forms.Button();
+            this.lblTotalRecords = new System.Windows.Forms.Label();
+            this.lblRecords = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCsvFile)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvCsvFile
             // 
+            this.dgvCsvFile.AllowUserToOrderColumns = true;
+            this.dgvCsvFile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvCsvFile.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCsvFile.Location = new System.Drawing.Point(13, 38);
             this.dgvCsvFile.Name = "dgvCsvFile";
-            this.dgvCsvFile.Size = new System.Drawing.Size(768, 571);
+            this.dgvCsvFile.Size = new System.Drawing.Size(907, 621);
             this.dgvCsvFile.TabIndex = 0;
             // 
             // lblCsvFile
             // 
             this.lblCsvFile.AutoSize = true;
             this.lblCsvFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCsvFile.Location = new System.Drawing.Point(10, 15);
+            this.lblCsvFile.Location = new System.Drawing.Point(170, 15);
             this.lblCsvFile.Name = "lblCsvFile";
             this.lblCsvFile.Size = new System.Drawing.Size(57, 13);
             this.lblCsvFile.TabIndex = 1;
@@ -56,14 +64,17 @@ namespace CsvEditor
             // 
             // txtCsvFile
             // 
-            this.txtCsvFile.Location = new System.Drawing.Point(76, 12);
+            this.txtCsvFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCsvFile.Location = new System.Drawing.Point(236, 12);
             this.txtCsvFile.Name = "txtCsvFile";
-            this.txtCsvFile.Size = new System.Drawing.Size(205, 20);
+            this.txtCsvFile.Size = new System.Drawing.Size(437, 20);
             this.txtCsvFile.TabIndex = 2;
             // 
             // btnImportFile
             // 
-            this.btnImportFile.Location = new System.Drawing.Point(287, 10);
+            this.btnImportFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnImportFile.Location = new System.Drawing.Point(679, 10);
             this.btnImportFile.Name = "btnImportFile";
             this.btnImportFile.Size = new System.Drawing.Size(63, 23);
             this.btnImportFile.TabIndex = 3;
@@ -71,11 +82,55 @@ namespace CsvEditor
             this.btnImportFile.UseVisualStyleBackColor = true;
             this.btnImportFile.Click += new System.EventHandler(this.btnImportFile_Click);
             // 
+            // btnClearDgv
+            // 
+            this.btnClearDgv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearDgv.Location = new System.Drawing.Point(870, 10);
+            this.btnClearDgv.Name = "btnClearDgv";
+            this.btnClearDgv.Size = new System.Drawing.Size(50, 23);
+            this.btnClearDgv.TabIndex = 4;
+            this.btnClearDgv.Text = "Clear";
+            this.btnClearDgv.UseVisualStyleBackColor = true;
+            this.btnClearDgv.Click += new System.EventHandler(this.btnClearDgv_Click);
+            // 
+            // btnMergeFile
+            // 
+            this.btnMergeFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMergeFile.Location = new System.Drawing.Point(748, 10);
+            this.btnMergeFile.Name = "btnMergeFile";
+            this.btnMergeFile.Size = new System.Drawing.Size(90, 23);
+            this.btnMergeFile.TabIndex = 5;
+            this.btnMergeFile.Text = "Samenvoegen";
+            this.btnMergeFile.UseVisualStyleBackColor = true;
+            // 
+            // lblTotalRecords
+            // 
+            this.lblTotalRecords.AutoSize = true;
+            this.lblTotalRecords.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalRecords.Location = new System.Drawing.Point(12, 15);
+            this.lblTotalRecords.Name = "lblTotalRecords";
+            this.lblTotalRecords.Size = new System.Drawing.Size(93, 13);
+            this.lblTotalRecords.TabIndex = 6;
+            this.lblTotalRecords.Text = "Totaal records:";
+            // 
+            // lblRecords
+            // 
+            this.lblRecords.AutoSize = true;
+            this.lblRecords.Location = new System.Drawing.Point(111, 15);
+            this.lblRecords.Name = "lblRecords";
+            this.lblRecords.Size = new System.Drawing.Size(13, 13);
+            this.lblRecords.TabIndex = 7;
+            this.lblRecords.Text = "0";
+            // 
             // CsvEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(985, 621);
+            this.ClientSize = new System.Drawing.Size(1124, 671);
+            this.Controls.Add(this.lblRecords);
+            this.Controls.Add(this.lblTotalRecords);
+            this.Controls.Add(this.btnMergeFile);
+            this.Controls.Add(this.btnClearDgv);
             this.Controls.Add(this.btnImportFile);
             this.Controls.Add(this.txtCsvFile);
             this.Controls.Add(this.lblCsvFile);
@@ -94,6 +149,10 @@ namespace CsvEditor
         private System.Windows.Forms.Label lblCsvFile;
         private System.Windows.Forms.TextBox txtCsvFile;
         private System.Windows.Forms.Button btnImportFile;
+        private System.Windows.Forms.Button btnClearDgv;
+        private System.Windows.Forms.Button btnMergeFile;
+        private System.Windows.Forms.Label lblTotalRecords;
+        private System.Windows.Forms.Label lblRecords;
     }
 }
 

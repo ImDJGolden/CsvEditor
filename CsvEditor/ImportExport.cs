@@ -13,10 +13,10 @@ namespace CsvEditor
     {
         #region Import
 
-        public static DataTable dtImport = new DataTable();
-
         public static DataTable ImportCSVheader(string filename) //Read data in CSV file (with headers)
         {
+            DataTable dtImport = new DataTable();
+
             try
             {
                 using (TextFieldParser csvReader = new TextFieldParser(filename))
@@ -37,19 +37,16 @@ namespace CsvEditor
                     while (!csvReader.EndOfData)
                     {
                         string[] dataFields = csvReader.ReadFields();
-                        //DataRow dr = dtImport.NewRow();
 
                         for (int i = 0; i <= dataFields.Length - 1; i++)
                         {
-                            if (dataFields[i] == null)
+                            if (dataFields[i] == null || dataFields[i] == "")
                             {
-                                //Null value found in csv
-                            }
-                            else
-                            {
-                                dtImport.Rows.Add(dataFields[i]);
+                                //Null value found in CSV
                             }
                         }
+
+                        dtImport.Rows.Add(dataFields);
                     }
                 }
             }
@@ -61,8 +58,10 @@ namespace CsvEditor
             return dtImport;
         }
 
-        public static DataTable ImportCSVNoHeader(string filename)
+        public static DataTable ImportCSVNoHeader(string filename) //Read data in CSV file (without headers)
         {
+            DataTable dtImport = new DataTable();
+
             try
             {
                 using (TextFieldParser csvReader = new TextFieldParser(filename))
@@ -74,7 +73,6 @@ namespace CsvEditor
                     while (!csvReader.EndOfData)
                     {
                         string[] dataFields = csvReader.ReadFields();
-                        //DataRow dr = dtImport.NewRow();
 
                         for (int i = 0; i <= dataFields.Length - 1; i++)
                         {
@@ -82,11 +80,9 @@ namespace CsvEditor
                             {
                                 //Null value found in csv
                             }
-                            else
-                            {
-                                dtImport.Rows.Add(dataFields[i]);
-                            }
                         }
+
+                        dtImport.Rows.Add(dataFields);
                     }
                 }
             }
@@ -96,7 +92,7 @@ namespace CsvEditor
             }
 
             return dtImport;
-        } //TODO
+        }
 
         public static void OpenCsvFile(bool header) //Open FileDialog to choose a CSV file
         {
@@ -111,6 +107,8 @@ namespace CsvEditor
                     {
                         Csv.xFilename = dialog.FileName;
                         DataTable dt = new DataTable();
+
+                        Csv.xData = null;
 
                         if (header)
                         {

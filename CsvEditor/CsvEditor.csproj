@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Crud.cs" />
+    <Compile Include="Csv.cs" />
     <Compile Include="CsvEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +56,7 @@
       <DependentUpon>CsvEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="ImportExport.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CsvEditor.resx">
