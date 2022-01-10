@@ -134,6 +134,12 @@ namespace CsvEditor
         }
         #endregion
 
+        #region Merge
+        
+
+
+        #endregion
+
         #region Export
 
 

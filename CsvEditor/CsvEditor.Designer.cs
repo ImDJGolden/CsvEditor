@@ -68,6 +68,7 @@ namespace CsvEditor
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCsvFile.Location = new System.Drawing.Point(236, 12);
             this.txtCsvFile.Name = "txtCsvFile";
+            this.txtCsvFile.ReadOnly = true;
             this.txtCsvFile.Size = new System.Drawing.Size(437, 20);
             this.txtCsvFile.TabIndex = 2;
             // 
@@ -96,12 +97,14 @@ namespace CsvEditor
             // btnMergeFile
             // 
             this.btnMergeFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMergeFile.Enabled = false;
             this.btnMergeFile.Location = new System.Drawing.Point(748, 10);
             this.btnMergeFile.Name = "btnMergeFile";
             this.btnMergeFile.Size = new System.Drawing.Size(90, 23);
             this.btnMergeFile.TabIndex = 5;
             this.btnMergeFile.Text = "Samenvoegen";
             this.btnMergeFile.UseVisualStyleBackColor = true;
+            this.btnMergeFile.Click += new System.EventHandler(this.btnMergeFile_Click);
             // 
             // lblTotalRecords
             // 

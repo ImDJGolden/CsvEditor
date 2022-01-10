@@ -21,7 +21,7 @@ namespace CsvEditor
         {
             try
             {
-                DialogResult result = MessageBox.Show("Bevat de CSV die je wilt importeren een header? \n\nYes: Met headers. \nNo: zonder headers.", "Wat voor CSV?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show("Bevat de CSV die je wilt importeren een header? \n\nYes: Met headers. \nNo: zonder headers.", "Importeren.", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
@@ -35,6 +35,7 @@ namespace CsvEditor
                 txtCsvFile.Text = Csv.xFilename;
                 dgvCsvFile.DataSource = Csv.xData;
                 lblRecords.Text = Csv.xData.Rows.Count.ToString();
+                btnMergeFile.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -48,6 +49,30 @@ namespace CsvEditor
             dgvCsvFile.DataSource = null;
             dgvCsvFile.Refresh();
             lblRecords.Text = "0";
+            btnMergeFile.Enabled = false;
+        }
+
+        private void btnMergeFile_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DialogResult result = MessageBox.Show("Bevat de CSV die je wilt samenvoegen een header? \n\nYes: Met headers. \nNo: zonder headers.", "Samenvoegen.", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                }
+                else if (result == DialogResult.No)
+                {
+                }
+
+                //txtCsvFile.Text = Csv.xFilename;
+                //dgvCsvFile.DataSource = Csv.xData;
+                //lblRecords.Text = Csv.xData.Rows.Count.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
