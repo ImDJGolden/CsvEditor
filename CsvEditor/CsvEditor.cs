@@ -17,6 +17,8 @@ namespace CsvEditor
             InitializeComponent();
         }
 
+        #region Buttons
+
         private void btnImportFile_Click(object sender, EventArgs e)
         {
             try
@@ -35,22 +37,13 @@ namespace CsvEditor
                 txtCsvFile.Text = Csv.xFilename;
                 dgvCsvFile.DataSource = Csv.xData;
                 lblRecords.Text = Csv.xData.Rows.Count.ToString();
-                btnMergeFile.Enabled = true;
+                btnMerge.Enabled = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void btnClearDgv_Click(object sender, EventArgs e)
-        {
-            txtCsvFile.Text = null;
-            dgvCsvFile.DataSource = null;
-            dgvCsvFile.Refresh();
-            lblRecords.Text = "0";
-            btnMergeFile.Enabled = false;
-        }
+        }  
 
         private void btnMergeFile_Click(object sender, EventArgs e)
         {
@@ -76,5 +69,23 @@ namespace CsvEditor
                 MessageBox.Show($"{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            
+            //Export file to new csv.
+
+        }
+
+        private void btnClearDgv_Click(object sender, EventArgs e)
+        {
+            txtCsvFile.Text = null;
+            dgvCsvFile.DataSource = null;
+            dgvCsvFile.Refresh();
+            lblRecords.Text = "0";
+            btnMerge.Enabled = false;
+        }
+
+        #endregion
     }
 }

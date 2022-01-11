@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,10 +65,20 @@ namespace CsvEditor
 
             try
             {
+                string[] lines = File.ReadAllLines(filename);
+
                 using (TextFieldParser csvReader = new TextFieldParser(filename))
                 {
                     csvReader.SetDelimiters(new string[] { ";", "," });
                     csvReader.HasFieldsEnclosedInQuotes = true;
+
+                    // *** Add Columns ***
+                    int cols = lines[0].Split(new char[] { ',', ';' }).Count();
+
+                    for (int i = 0; i <= cols - 1 ; i++)
+                    {
+                        dtImport.Columns.Add($"column {i + 1}");
+                    }
 
                     // *** Read datarows from CSV ***
                     while (!csvReader.EndOfData)
@@ -257,7 +268,28 @@ namespace CsvEditor
 
         #region Export
 
+        public static void ExportCsvFile(DataTable dt) 
+        {
+            string path = "";
 
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "CSV|*.csv";
+            sfd.Title = "CSV-bestand opslaan";
+
+            try
+            {
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    path = sfd.FileName;
+
+                    //TODO dt -> .csv
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         #endregion
     }
