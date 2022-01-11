@@ -136,7 +136,122 @@ namespace CsvEditor
 
         #region Merge
         
+        public static DataTable MergeCSVheader(string filename)
+        {
+            DataTable dtMerge = new DataTable();
 
+            try
+            {
+                using (TextFieldParser csvReader = new TextFieldParser(filename))
+                {
+                    csvReader.SetDelimiters(new string[] { ";", "," });
+                    csvReader.HasFieldsEnclosedInQuotes = true;
+
+                    // *** Read columns from CSV ***
+                    string[] colFields = csvReader.ReadFields();
+
+                    foreach (string column in colFields)
+                    {
+                        //Skip headers for merging.
+                    }
+
+                    // *** Read datarows from CSV ***
+                    while (!csvReader.EndOfData)
+                    {
+                        string[] dataFields = csvReader.ReadFields();
+
+                        for (int i = 0; i <= dataFields.Length - 1; i++)
+                        {
+                            if (dataFields[i] == null || dataFields[i] == "")
+                            {
+                                //Null value found in CSV
+                            }
+                        }
+
+                        dtMerge.Rows.Add(dataFields);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return dtMerge;
+        }
+
+        public static DataTable MergeCsvNoHeader(string filename)
+        {
+            DataTable dtMerge = new DataTable();
+
+            try
+            {
+                using (TextFieldParser csvReader = new TextFieldParser(filename))
+                {
+                    csvReader.SetDelimiters(new string[] { ";", "," });
+                    csvReader.HasFieldsEnclosedInQuotes = true;
+
+                    // *** Read datarows from CSV ***
+                    while (!csvReader.EndOfData)
+                    {
+                        string[] dataFields = csvReader.ReadFields();
+
+                        for (int i = 0; i <= dataFields.Length - 1; i++)
+                        {
+                            if (dataFields[i] == null)
+                            {
+                                //Null value found in csv
+                            }
+                        }
+
+                        dtMerge.Rows.Add(dataFields);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return dtMerge;
+        }
+
+        public static void MergeCsvFile(bool header)
+        {
+            try
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.ShowDialog();
+
+                if (dialog.FileName != "")
+                {
+                    if (dialog.FileName.EndsWith(".csv"))
+                    {
+                        Csv.xFilename = dialog.FileName;
+                        DataTable dt = new DataTable();
+
+                        if (header)
+                        {
+                            dt = ImportCSVheader(Csv.xFilename);
+                        }
+                        else if (!header)
+                        {
+                            dt = ImportCSVNoHeader(Csv.xFilename);
+                        }
+
+                        Csv.xData.Merge(dt);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Gekozen bestand is ongeldig. Kies een csv Bestand.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         #endregion
 

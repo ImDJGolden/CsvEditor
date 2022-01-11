@@ -60,14 +60,16 @@ namespace CsvEditor
 
                 if (result == DialogResult.Yes)
                 {
+                    ImportExport.MergeCsvFile(true);
                 }
                 else if (result == DialogResult.No)
                 {
+                    ImportExport.MergeCsvFile(false);
                 }
 
-                //txtCsvFile.Text = Csv.xFilename;
-                //dgvCsvFile.DataSource = Csv.xData;
-                //lblRecords.Text = Csv.xData.Rows.Count.ToString();
+                dgvCsvFile.Refresh();
+                txtCsvFile.Text = Csv.xFilename;
+                lblRecords.Text = Csv.xData.Rows.Count.ToString();
             }
             catch (Exception ex)
             {

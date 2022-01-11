@@ -19,7 +19,7 @@ namespace CsvEditor
             try
             {
                 sw = File.AppendText(path);
-                sw.WriteLine($"{} :: {msg}");
+                sw.WriteLine($"{DateTime.Now:dd-MM-yyyy HH:mm:ss} :: {msg}");
             }
             catch (Exception)
             {
