@@ -22,7 +22,7 @@ namespace CsvEditor
             {
                 using (TextFieldParser csvReader = new TextFieldParser(filename))
                 {
-                    csvReader.SetDelimiters(new string[] { ";", "," });
+                    csvReader.SetDelimiters(Csv.xDelimiter);
                     csvReader.HasFieldsEnclosedInQuotes = true;
 
                     // *** Read columns from CSV ***
@@ -69,15 +69,73 @@ namespace CsvEditor
 
                 using (TextFieldParser csvReader = new TextFieldParser(filename))
                 {
-                    csvReader.SetDelimiters(new string[] { ";", "," });
+                    csvReader.SetDelimiters(Csv.xDelimiter);
                     csvReader.HasFieldsEnclosedInQuotes = true;
 
                     // *** Add Columns ***
-                    int cols = lines[0].Split(new char[] { ',', ';' }).Count();
+                    int cols = 0;
 
-                    for (int i = 0; i <= cols - 1 ; i++)
+                    foreach (string delimiter in Csv.xDelimiter)
+                    {
+                        cols += lines[0].Split(Convert.ToChar(delimiter)).Count();
+                    }
+
+                    for (int i = 0; i <= cols - 2 ; i++)
                     {
                         dtImport.Columns.Add($"column {i + 1}");
+                    }
+
+                    // *** Read datarows from CSV ***
+                    while (!csvReader.EndOfData)
+                    {
+                        string[] dataFields = csvReader.ReadFields();
+
+                        for (int i = 0; i <= dataFields.Length - 1; i++)
+                        {
+                            if (dataFields[i] == null)
+                            {
+                                //Null value found in csv
+                            }
+                        }
+
+                        dtImport.Rows.Add(dataFields);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return dtImport;
+        }
+
+        public static DataTable ImportCSVNoHeader(string filename, bool merge) //Read data in CSV file (without headers) and copies the existing headers
+        {
+            DataTable dtImport = new DataTable();
+
+            try
+            {
+                string[] lines = File.ReadAllLines(filename);
+
+                using (TextFieldParser csvReader = new TextFieldParser(filename))
+                {
+                    csvReader.SetDelimiters(Csv.xDelimiter);
+                    csvReader.HasFieldsEnclosedInQuotes = true;
+
+                    // *** Add Columns ***
+                    int cols = 0;
+
+                    foreach (string delimiter in Csv.xDelimiter)
+                    {
+                        cols += lines[0].Split(Convert.ToChar(delimiter)).Count();
+                    }
+                    if (merge)
+                    {
+                        for (int i = 0; i <= cols - 2; i++)
+                        {
+                            dtImport.Columns.Add($"{Csv.xData.Columns[i].ColumnName}");
+                        }
                     }
 
                     // *** Read datarows from CSV ***
@@ -143,91 +201,8 @@ namespace CsvEditor
                 throw;
             }
         }
-        #endregion
 
-        #region Merge
-        
-        public static DataTable MergeCSVheader(string filename)
-        {
-            DataTable dtMerge = new DataTable();
-
-            try
-            {
-                using (TextFieldParser csvReader = new TextFieldParser(filename))
-                {
-                    csvReader.SetDelimiters(new string[] { ";", "," });
-                    csvReader.HasFieldsEnclosedInQuotes = true;
-
-                    // *** Read columns from CSV ***
-                    string[] colFields = csvReader.ReadFields();
-
-                    foreach (string column in colFields)
-                    {
-                        //Skip headers for merging.
-                    }
-
-                    // *** Read datarows from CSV ***
-                    while (!csvReader.EndOfData)
-                    {
-                        string[] dataFields = csvReader.ReadFields();
-
-                        for (int i = 0; i <= dataFields.Length - 1; i++)
-                        {
-                            if (dataFields[i] == null || dataFields[i] == "")
-                            {
-                                //Null value found in CSV
-                            }
-                        }
-
-                        dtMerge.Rows.Add(dataFields);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return dtMerge;
-        }
-
-        public static DataTable MergeCsvNoHeader(string filename)
-        {
-            DataTable dtMerge = new DataTable();
-
-            try
-            {
-                using (TextFieldParser csvReader = new TextFieldParser(filename))
-                {
-                    csvReader.SetDelimiters(new string[] { ";", "," });
-                    csvReader.HasFieldsEnclosedInQuotes = true;
-
-                    // *** Read datarows from CSV ***
-                    while (!csvReader.EndOfData)
-                    {
-                        string[] dataFields = csvReader.ReadFields();
-
-                        for (int i = 0; i <= dataFields.Length - 1; i++)
-                        {
-                            if (dataFields[i] == null)
-                            {
-                                //Null value found in csv
-                            }
-                        }
-
-                        dtMerge.Rows.Add(dataFields);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return dtMerge;
-        }
-
-        public static void MergeCsvFile(bool header)
+        public static void MergeCsvFile(bool header) //Open FileDialog to choose a merge file
         {
             try
             {
@@ -247,7 +222,16 @@ namespace CsvEditor
                         }
                         else if (!header)
                         {
-                            dt = ImportCSVNoHeader(Csv.xFilename);
+                            DialogResult result = MessageBox.Show("Wil je de column namen overnemen?", "Samenvoegen.", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                            if (result == DialogResult.Yes)
+                            {
+                                dt = ImportCSVNoHeader(Csv.xFilename, true);
+                            }
+                            else if (result == DialogResult.No)
+                            {
+                                dt = ImportCSVNoHeader(Csv.xFilename);
+                            }
                         }
 
                         Csv.xData.Merge(dt);

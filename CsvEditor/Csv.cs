@@ -11,5 +11,7 @@ namespace CsvEditor
     {
         public static string xFilename { get; set; }
         public static DataTable xData { get; set; }
+
+        public static string[] xDelimiter = { ",", ";" };
     }
 }
