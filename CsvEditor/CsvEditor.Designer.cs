@@ -41,6 +41,8 @@ namespace CsvEditor
             this.button2 = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
             this.pgbStatus = new System.Windows.Forms.ProgressBar();
+            this.lblSeperator = new System.Windows.Forms.Label();
+            this.cbxSeperator = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCsvFile)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,9 +53,9 @@ namespace CsvEditor
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvCsvFile.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCsvFile.Location = new System.Drawing.Point(13, 38);
+            this.dgvCsvFile.Location = new System.Drawing.Point(12, 38);
             this.dgvCsvFile.Name = "dgvCsvFile";
-            this.dgvCsvFile.Size = new System.Drawing.Size(906, 621);
+            this.dgvCsvFile.Size = new System.Drawing.Size(1103, 634);
             this.dgvCsvFile.TabIndex = 0;
             // 
             // lblCsvFile
@@ -73,13 +75,13 @@ namespace CsvEditor
             this.txtCsvFile.Location = new System.Drawing.Point(217, 12);
             this.txtCsvFile.Name = "txtCsvFile";
             this.txtCsvFile.ReadOnly = true;
-            this.txtCsvFile.Size = new System.Drawing.Size(436, 20);
+            this.txtCsvFile.Size = new System.Drawing.Size(633, 20);
             this.txtCsvFile.TabIndex = 2;
             // 
             // btnImport
             // 
             this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnImport.Location = new System.Drawing.Point(659, 10);
+            this.btnImport.Location = new System.Drawing.Point(856, 10);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(63, 23);
             this.btnImport.TabIndex = 3;
@@ -90,7 +92,7 @@ namespace CsvEditor
             // btnClearDgv
             // 
             this.btnClearDgv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearDgv.Location = new System.Drawing.Point(869, 10);
+            this.btnClearDgv.Location = new System.Drawing.Point(1066, 10);
             this.btnClearDgv.Name = "btnClearDgv";
             this.btnClearDgv.Size = new System.Drawing.Size(50, 23);
             this.btnClearDgv.TabIndex = 4;
@@ -102,7 +104,7 @@ namespace CsvEditor
             // 
             this.btnMerge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMerge.Enabled = false;
-            this.btnMerge.Location = new System.Drawing.Point(728, 10);
+            this.btnMerge.Location = new System.Drawing.Point(925, 10);
             this.btnMerge.Name = "btnMerge";
             this.btnMerge.Size = new System.Drawing.Size(90, 23);
             this.btnMerge.TabIndex = 5;
@@ -131,7 +133,8 @@ namespace CsvEditor
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(925, 38);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(1122, 38);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(94, 79);
             this.button1.TabIndex = 8;
@@ -140,7 +143,8 @@ namespace CsvEditor
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(1025, 38);
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Location = new System.Drawing.Point(1222, 38);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(94, 79);
             this.button2.TabIndex = 9;
@@ -149,7 +153,8 @@ namespace CsvEditor
             // 
             // btnExport
             // 
-            this.btnExport.Location = new System.Drawing.Point(925, 630);
+            this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExport.Location = new System.Drawing.Point(1122, 643);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(186, 29);
             this.btnExport.TabIndex = 10;
@@ -159,16 +164,45 @@ namespace CsvEditor
             // 
             // pgbStatus
             // 
-            this.pgbStatus.Location = new System.Drawing.Point(13, 665);
+            this.pgbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pgbStatus.Location = new System.Drawing.Point(13, 678);
             this.pgbStatus.Name = "pgbStatus";
-            this.pgbStatus.Size = new System.Drawing.Size(1098, 22);
+            this.pgbStatus.Size = new System.Drawing.Size(1295, 22);
             this.pgbStatus.TabIndex = 11;
+            // 
+            // lblSeperator
+            // 
+            this.lblSeperator.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblSeperator.AutoSize = true;
+            this.lblSeperator.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSeperator.Location = new System.Drawing.Point(1121, 581);
+            this.lblSeperator.Name = "lblSeperator";
+            this.lblSeperator.Size = new System.Drawing.Size(74, 15);
+            this.lblSeperator.TabIndex = 12;
+            this.lblSeperator.Text = "Seperator:";
+            // 
+            // cbxSeperator
+            // 
+            this.cbxSeperator.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbxSeperator.DropDownHeight = 110;
+            this.cbxSeperator.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbxSeperator.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxSeperator.FormattingEnabled = true;
+            this.cbxSeperator.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.cbxSeperator.IntegralHeight = false;
+            this.cbxSeperator.Location = new System.Drawing.Point(1208, 578);
+            this.cbxSeperator.Name = "cbxSeperator";
+            this.cbxSeperator.Size = new System.Drawing.Size(61, 23);
+            this.cbxSeperator.TabIndex = 13;
             // 
             // CsvEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1123, 693);
+            this.ClientSize = new System.Drawing.Size(1320, 706);
+            this.Controls.Add(this.cbxSeperator);
+            this.Controls.Add(this.lblSeperator);
             this.Controls.Add(this.pgbStatus);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.button2);
@@ -181,6 +215,7 @@ namespace CsvEditor
             this.Controls.Add(this.txtCsvFile);
             this.Controls.Add(this.lblCsvFile);
             this.Controls.Add(this.dgvCsvFile);
+            this.MinimumSize = new System.Drawing.Size(950, 500);
             this.Name = "CsvEditor";
             this.Text = "CSV Editor";
             ((System.ComponentModel.ISupportInitialize)(this.dgvCsvFile)).EndInit();
@@ -203,6 +238,8 @@ namespace CsvEditor
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.ProgressBar pgbStatus;
+        private System.Windows.Forms.Label lblSeperator;
+        private System.Windows.Forms.ComboBox cbxSeperator;
     }
 }
 

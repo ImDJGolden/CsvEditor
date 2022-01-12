@@ -168,31 +168,33 @@ namespace CsvEditor
             try
             {
                 OpenFileDialog dialog = new OpenFileDialog();
-                dialog.ShowDialog();
 
-                if (dialog.FileName != "")
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (dialog.FileName.EndsWith(".csv"))
+                    if (dialog.FileName != "")
                     {
-                        Csv.xFilename = dialog.FileName;
-                        DataTable dt = new DataTable();
-
-                        Csv.xData = null;
-
-                        if (header)
+                        if (dialog.FileName.EndsWith(".csv"))
                         {
-                            dt = ImportCSVheader(Csv.xFilename);
-                        }
-                        else if (!header)
-                        {
-                            dt = ImportCSVNoHeader(Csv.xFilename);
-                        }
+                            Csv.xFilename = dialog.FileName;
+                            DataTable dt = new DataTable();
 
-                        Csv.xData = dt;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Gekozen bestand is ongeldig. Kies een csv Bestand.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            Csv.xData = null;
+
+                            if (header)
+                            {
+                                dt = ImportCSVheader(Csv.xFilename);
+                            }
+                            else if (!header)
+                            {
+                                dt = ImportCSVNoHeader(Csv.xFilename);
+                            }
+
+                            Csv.xData = dt;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Gekozen bestand is ongeldig. Kies een csv Bestand.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
                     }
                 }
             }
@@ -207,38 +209,40 @@ namespace CsvEditor
             try
             {
                 OpenFileDialog dialog = new OpenFileDialog();
-                dialog.ShowDialog();
 
-                if (dialog.FileName != "")
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (dialog.FileName.EndsWith(".csv"))
+                    if (dialog.FileName != "")
                     {
-                        Csv.xFilename = dialog.FileName;
-                        DataTable dt = new DataTable();
-
-                        if (header)
+                        if (dialog.FileName.EndsWith(".csv"))
                         {
-                            dt = ImportCSVheader(Csv.xFilename);
+                            Csv.xFilename = dialog.FileName;
+                            DataTable dt = new DataTable();
+
+                            if (header)
+                            {
+                                dt = ImportCSVheader(Csv.xFilename);
+                            }
+                            else if (!header)
+                            {
+                                DialogResult result = MessageBox.Show("Wil je de column namen overnemen?", "Samenvoegen.", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                                if (result == DialogResult.Yes)
+                                {
+                                    dt = ImportCSVNoHeader(Csv.xFilename, true);
+                                }
+                                else if (result == DialogResult.No)
+                                {
+                                    dt = ImportCSVNoHeader(Csv.xFilename);
+                                }
+                            }
+
+                            Csv.xData.Merge(dt);
                         }
-                        else if (!header)
+                        else
                         {
-                            DialogResult result = MessageBox.Show("Wil je de column namen overnemen?", "Samenvoegen.", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-
-                            if (result == DialogResult.Yes)
-                            {
-                                dt = ImportCSVNoHeader(Csv.xFilename, true);
-                            }
-                            else if (result == DialogResult.No)
-                            {
-                                dt = ImportCSVNoHeader(Csv.xFilename);
-                            }
+                            MessageBox.Show("Gekozen bestand is ongeldig. Kies een csv Bestand.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
-
-                        Csv.xData.Merge(dt);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Gekozen bestand is ongeldig. Kies een csv Bestand.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
             }
@@ -252,12 +256,14 @@ namespace CsvEditor
 
         #region Export
 
-        public static void ExportCsvFile(DataTable dt) 
+        public static void ExportCsvFile(DataGridView dgv, string delimiter) //Export without headers.
         {
             string path = "";
+            StreamWriter sw = null;
 
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "CSV|*.csv";
+            sfd.FileName = "OutputCsv.csv";
             sfd.Title = "CSV-bestand opslaan";
 
             try
@@ -266,12 +272,50 @@ namespace CsvEditor
                 {
                     path = sfd.FileName;
 
-                    //TODO dt -> .csv
+                    if (Csv.xData.Rows.Count != 0)
+                    {
+                        // *** Get Columns in order of DGV ***
+                        List<DataGridViewColumn> columnsInOrder = new List<DataGridViewColumn>();
+                        List<string> csvExportLines = new List<string>();
+
+                        foreach (DataGridViewColumn c in dgv.Columns)
+                        {
+                            columnsInOrder.Add(c);
+                        }
+
+                        columnsInOrder = columnsInOrder.OrderBy(c => c.DisplayIndex).ToList();
+
+                        foreach (DataGridViewRow r in dgv.Rows)
+                        {
+                            List<string> rowsInOrder = new List<string>();
+
+                            foreach (DataGridViewColumn c in columnsInOrder)
+                            {
+                                if (!r.IsNewRow)
+                                {
+                                    rowsInOrder.Add(r.Cells[c.Index].Value.ToString());
+                                }
+                            }
+
+                            csvExportLines.Add(string.Join(delimiter, rowsInOrder.ToArray()));
+                        }
+
+                        sw = File.AppendText(path);
+
+                        for (int i = 0; i < csvExportLines.Count - 1; i++)
+                        {
+                            sw.WriteLine(csvExportLines[i]);
+                        }
+                    }
                 }
             }
             catch (Exception)
             {
                 throw;
+            }
+            finally
+            {
+                sw.Close();
             }
         }
 

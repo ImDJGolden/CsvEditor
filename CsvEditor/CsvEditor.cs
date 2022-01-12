@@ -15,6 +15,10 @@ namespace CsvEditor
         public CsvEditor()
         {
             InitializeComponent();
+
+            cbxSeperator.DataSource = Csv.xDelimiter;
+            cbxSeperator.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbxSeperator.SelectedIndex = 1;
         }
 
         #region Buttons
@@ -36,8 +40,13 @@ namespace CsvEditor
 
                 txtCsvFile.Text = Csv.xFilename;
                 dgvCsvFile.DataSource = Csv.xData;
-                lblRecords.Text = Csv.xData.Rows.Count.ToString();
-                btnMerge.Enabled = true;
+                if (Csv.xData != null)
+                { 
+                    lblRecords.Text = Csv.xData.Rows.Count.ToString();
+                    btnMerge.Enabled = true;
+                }
+                else { lblRecords.Text = "0"; }
+                
             }
             catch (Exception ex)
             {
@@ -72,18 +81,25 @@ namespace CsvEditor
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            
+
             //Export file to new csv.
+            ImportExport.ExportCsvFile(dgvCsvFile, cbxSeperator.SelectedValue.ToString());
+
 
         }
 
         private void btnClearDgv_Click(object sender, EventArgs e)
         {
-            txtCsvFile.Text = null;
-            dgvCsvFile.DataSource = null;
-            dgvCsvFile.Refresh();
-            lblRecords.Text = "0";
-            btnMerge.Enabled = false;
+            DialogResult result = MessageBox.Show("Bent u zeker dat u de 'DataGridView' wilt leegmaken?", "Opgelet!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            
+            if (result == DialogResult.Yes)
+            {
+                txtCsvFile.Text = null;
+                dgvCsvFile.DataSource = null;
+                dgvCsvFile.Refresh();
+                lblRecords.Text = "0";
+                btnMerge.Enabled = false;
+            }
         }
 
         #endregion
