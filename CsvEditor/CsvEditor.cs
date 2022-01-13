@@ -19,6 +19,9 @@ namespace CsvEditor
             cbxSeperator.DataSource = Csv.xDelimiter;
             cbxSeperator.DropDownStyle = ComboBoxStyle.DropDownList;
             cbxSeperator.SelectedIndex = 1;
+
+            txtAddColumn.Text = "\"kolom naam...\"";
+
         }
 
         #region Buttons
@@ -81,10 +84,66 @@ namespace CsvEditor
 
         private void btnExport_Click(object sender, EventArgs e)
         {
+            try
+            {
+                DialogResult result = MessageBox.Show("Exporteren met of zonder headers? \n\nYes: Met headers. \nNo: zonder headers.", "Export.", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
-            //Export file to new csv.
-            ImportExport.ExportCsvFile(dgvCsvFile, cbxSeperator.SelectedValue.ToString());
+                if (result == DialogResult.Yes)
+                {
 
+                }
+                else if (result == DialogResult.No)
+                {
+                    ImportExport.ExportCsvFileNoHeader(dgvCsvFile, cbxSeperator.SelectedValue.ToString());
+                }
+
+                dgvCsvFile.Refresh();
+                txtCsvFile.Text = Csv.xFilename;
+                lblRecords.Text = Csv.xData.Rows.Count.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnAddColumn_Click(object sender, EventArgs e)
+        {
+            if (txtAddColumn.Text != "\"kolom naam...\"")
+            {
+                if (Csv.xData != null)
+                {
+                    Csv.xData.Columns.Add(txtAddColumn.Text);
+                    dgvCsvFile.DataSource = Csv.xData;
+                    txtAddColumn.Text = "\"kolom naam...\"";
+                }
+                else
+                {
+                    Csv.xData = new DataTable();
+
+                    Csv.xData.Columns.Add(txtAddColumn.Text);
+                    dgvCsvFile.DataSource = Csv.xData;
+                    txtAddColumn.Text = "\"kolom naam...\"";
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vul eerst een kolom naam.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnRemoveColumn_Click(object sender, EventArgs e)
+        {
+            int colIndex = dgvCsvFile.CurrentCell.ColumnIndex;
+            string colName = dgvCsvFile.Columns[colIndex].HeaderText;
+
+            DialogResult result = MessageBox.Show($"Bent u zeker dat u de kolom \"{colName}\" wilt verwijderen?", "Verwijderen", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                Csv.xData.Columns.RemoveAt(colIndex);
+                dgvCsvFile.DataSource = Csv.xData;
+            }
 
         }
 
@@ -94,6 +153,7 @@ namespace CsvEditor
             
             if (result == DialogResult.Yes)
             {
+                Csv.xData = null;
                 txtCsvFile.Text = null;
                 dgvCsvFile.DataSource = null;
                 dgvCsvFile.Refresh();
@@ -103,5 +163,28 @@ namespace CsvEditor
         }
 
         #endregion
+
+        #region Extra
+
+        public void RemoveText(object sender, EventArgs e)
+        {
+            if (txtAddColumn.Text == "\"kolom naam...\"")
+            {
+                txtAddColumn.Text = "";
+            }
+        }
+
+        public void AddText(object sender, EventArgs e) 
+        {
+            if (string.IsNullOrWhiteSpace(txtAddColumn.Text))
+            {
+                txtAddColumn.Text = "\"kolom naam...\"";
+            }
+        }
+
+
+        #endregion
+
+        
     }
 }
