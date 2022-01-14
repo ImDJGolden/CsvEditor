@@ -4,24 +4,32 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 
 namespace CsvEditor
 {
     public partial class CsvEditor : Form
     {
+        public string placeholderNewColumn = "\"kolom naam...\"";
+
         public CsvEditor()
         {
             InitializeComponent();
 
+            //Dropdown Delimiter -> Export to csv
             cbxSeperator.DataSource = Csv.xDelimiter;
             cbxSeperator.DropDownStyle = ComboBoxStyle.DropDownList;
             cbxSeperator.SelectedIndex = 1;
 
-            txtAddColumn.Text = "\"kolom naam...\"";
+            //Dropdown Type -> New Column
+            cbxTypeof.DataSource = Enum.GetValues(typeof(Csv.xDataTypes));
+            cbxTypeof.DropDownStyle = ComboBoxStyle.DropDownList;
 
+            txtAddColumn.Text = placeholderNewColumn;
         }
 
         #region Buttons
@@ -108,22 +116,37 @@ namespace CsvEditor
 
         private void btnAddColumn_Click(object sender, EventArgs e)
         {
-            if (txtAddColumn.Text != "\"kolom naam...\"")
+            if (Csv.xData == null)
             {
-                if (Csv.xData != null)
-                {
-                    Csv.xData.Columns.Add(txtAddColumn.Text);
-                    dgvCsvFile.DataSource = Csv.xData;
-                    txtAddColumn.Text = "\"kolom naam...\"";
-                }
-                else
-                {
-                    Csv.xData = new DataTable();
+                Csv.xData = new DataTable();
+            }
 
-                    Csv.xData.Columns.Add(txtAddColumn.Text);
-                    dgvCsvFile.DataSource = Csv.xData;
-                    txtAddColumn.Text = "\"kolom naam...\"";
+            if (txtAddColumn.Text != placeholderNewColumn)
+            {
+                switch (cbxTypeof.SelectedValue.ToString())
+                {
+                    case "Tekst":           //String
+                        Csv.xData.Columns.Add(txtAddColumn.Text, typeof(string));
+                        break;
+                    case "Nummer":          //Integer
+                        Csv.xData.Columns.Add(txtAddColumn.Text, typeof(int));
+                        break;
+                    case "Decimaal":        //Double
+                        Csv.xData.Columns.Add(txtAddColumn.Text, typeof(double));
+                        break;
+                    case "Datumtijd":       //DateTime
+                        Csv.xData.Columns.Add(txtAddColumn.Text, typeof(DateTime));
+                        break;
+                    case "Boolean":         //Boolean
+                        Csv.xData.Columns.Add(txtAddColumn.Text, typeof(bool));
+                        break;
+                    default:                //Default case
+                        Csv.xData.Columns.Add(txtAddColumn.Text);
+                        break;
                 }
+
+                dgvCsvFile.DataSource = Csv.xData;
+                txtAddColumn.Text = placeholderNewColumn;
             }
             else
             {
@@ -143,7 +166,19 @@ namespace CsvEditor
                 Csv.xData.Columns.RemoveAt(colIndex);
                 dgvCsvFile.DataSource = Csv.xData;
             }
+        }
 
+        private void btnRemoveRow_Click(object sender, EventArgs e)
+        {
+            int rowIndex = dgvCsvFile.CurrentCell.RowIndex;
+
+            DialogResult result = MessageBox.Show($"Bent u zeker dat u record \"{rowIndex + 1}\" wilt verwijderen?", "Verwijderen", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                dgvCsvFile.Rows.RemoveAt(rowIndex);
+                lblRecords.Text = Csv.xData.Rows.Count.ToString();
+            }
         }
 
         private void btnClearDgv_Click(object sender, EventArgs e)
@@ -165,7 +200,7 @@ namespace CsvEditor
         #region Extra
         public void RemoveText(object sender, EventArgs e)
         {
-            if (txtAddColumn.Text == "\"kolom naam...\"")
+            if (txtAddColumn.Text == placeholderNewColumn)
             {
                 txtAddColumn.Text = "";
             }
@@ -175,11 +210,11 @@ namespace CsvEditor
         {
             if (string.IsNullOrWhiteSpace(txtAddColumn.Text))
             {
-                txtAddColumn.Text = "\"kolom naam...\"";
+                txtAddColumn.Text = placeholderNewColumn;
             }
         }
         #endregion
 
-        
+
     }
 }

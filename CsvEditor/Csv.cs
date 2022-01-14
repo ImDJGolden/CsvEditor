@@ -11,6 +11,7 @@ namespace CsvEditor
     {
         public static string xFilename { get; set; }
         public static DataTable xData { get; set; }
+        public enum xDataTypes { Tekst, Nummer, Decimaal, Datumtijd, Boolean}
 
         public static string[] xDelimiter = { ",", ";" };
     }

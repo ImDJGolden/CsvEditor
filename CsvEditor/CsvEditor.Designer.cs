@@ -47,10 +47,14 @@ namespace CsvEditor
             this.gbxAddColumn = new System.Windows.Forms.GroupBox();
             this.gbxExport = new System.Windows.Forms.GroupBox();
             this.gbxRemoveColumn = new System.Windows.Forms.GroupBox();
+            this.gbxRemoveRow = new System.Windows.Forms.GroupBox();
+            this.btnRemoveRow = new System.Windows.Forms.Button();
+            this.cbxTypeof = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCsvFile)).BeginInit();
             this.gbxAddColumn.SuspendLayout();
             this.gbxExport.SuspendLayout();
             this.gbxRemoveColumn.SuspendLayout();
+            this.gbxRemoveRow.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvCsvFile
@@ -62,7 +66,7 @@ namespace CsvEditor
             this.dgvCsvFile.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCsvFile.Location = new System.Drawing.Point(12, 38);
             this.dgvCsvFile.Name = "dgvCsvFile";
-            this.dgvCsvFile.Size = new System.Drawing.Size(1103, 634);
+            this.dgvCsvFile.Size = new System.Drawing.Size(1103, 638);
             this.dgvCsvFile.TabIndex = 0;
             // 
             // lblCsvFile
@@ -141,7 +145,7 @@ namespace CsvEditor
             // btnAddColumn
             // 
             this.btnAddColumn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddColumn.Location = new System.Drawing.Point(84, 45);
+            this.btnAddColumn.Location = new System.Drawing.Point(84, 73);
             this.btnAddColumn.Name = "btnAddColumn";
             this.btnAddColumn.Size = new System.Drawing.Size(94, 79);
             this.btnAddColumn.TabIndex = 8;
@@ -156,7 +160,7 @@ namespace CsvEditor
             this.btnRemoveColumn.Name = "btnRemoveColumn";
             this.btnRemoveColumn.Size = new System.Drawing.Size(94, 79);
             this.btnRemoveColumn.TabIndex = 9;
-            this.btnRemoveColumn.Text = "Verwijderen";
+            this.btnRemoveColumn.Text = "Verwijder   Kolom";
             this.btnRemoveColumn.UseVisualStyleBackColor = true;
             this.btnRemoveColumn.Click += new System.EventHandler(this.btnRemoveColumn_Click);
             // 
@@ -175,7 +179,7 @@ namespace CsvEditor
             // 
             this.pgbStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pgbStatus.Location = new System.Drawing.Point(13, 678);
+            this.pgbStatus.Location = new System.Drawing.Point(13, 682);
             this.pgbStatus.Name = "pgbStatus";
             this.pgbStatus.Size = new System.Drawing.Size(1295, 22);
             this.pgbStatus.TabIndex = 11;
@@ -185,7 +189,7 @@ namespace CsvEditor
             this.lblSeperator.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSeperator.AutoSize = true;
             this.lblSeperator.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSeperator.Location = new System.Drawing.Point(30, 21);
+            this.lblSeperator.Location = new System.Drawing.Point(6, 21);
             this.lblSeperator.Name = "lblSeperator";
             this.lblSeperator.Size = new System.Drawing.Size(74, 15);
             this.lblSeperator.TabIndex = 12;
@@ -217,11 +221,12 @@ namespace CsvEditor
             // gbxAddColumn
             // 
             this.gbxAddColumn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbxAddColumn.Controls.Add(this.cbxTypeof);
             this.gbxAddColumn.Controls.Add(this.btnAddColumn);
             this.gbxAddColumn.Controls.Add(this.txtAddColumn);
             this.gbxAddColumn.Location = new System.Drawing.Point(1124, 38);
             this.gbxAddColumn.Name = "gbxAddColumn";
-            this.gbxAddColumn.Size = new System.Drawing.Size(184, 132);
+            this.gbxAddColumn.Size = new System.Drawing.Size(184, 157);
             this.gbxAddColumn.TabIndex = 15;
             this.gbxAddColumn.TabStop = false;
             this.gbxAddColumn.Text = "Kolom toevoegen";
@@ -232,7 +237,7 @@ namespace CsvEditor
             this.gbxExport.Controls.Add(this.btnExport);
             this.gbxExport.Controls.Add(this.lblSeperator);
             this.gbxExport.Controls.Add(this.cbxSeperator);
-            this.gbxExport.Location = new System.Drawing.Point(1124, 590);
+            this.gbxExport.Location = new System.Drawing.Point(1124, 594);
             this.gbxExport.Name = "gbxExport";
             this.gbxExport.Size = new System.Drawing.Size(184, 82);
             this.gbxExport.TabIndex = 16;
@@ -243,18 +248,49 @@ namespace CsvEditor
             // 
             this.gbxRemoveColumn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.gbxRemoveColumn.Controls.Add(this.btnRemoveColumn);
-            this.gbxRemoveColumn.Location = new System.Drawing.Point(1124, 176);
+            this.gbxRemoveColumn.Location = new System.Drawing.Point(1124, 201);
             this.gbxRemoveColumn.Name = "gbxRemoveColumn";
             this.gbxRemoveColumn.Size = new System.Drawing.Size(184, 100);
             this.gbxRemoveColumn.TabIndex = 17;
             this.gbxRemoveColumn.TabStop = false;
             this.gbxRemoveColumn.Text = "Kolom verwijderen";
             // 
+            // gbxRemoveRow
+            // 
+            this.gbxRemoveRow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbxRemoveRow.Controls.Add(this.btnRemoveRow);
+            this.gbxRemoveRow.Location = new System.Drawing.Point(1124, 307);
+            this.gbxRemoveRow.Name = "gbxRemoveRow";
+            this.gbxRemoveRow.Size = new System.Drawing.Size(184, 100);
+            this.gbxRemoveRow.TabIndex = 18;
+            this.gbxRemoveRow.TabStop = false;
+            this.gbxRemoveRow.Text = "Record verwijderen";
+            // 
+            // btnRemoveRow
+            // 
+            this.btnRemoveRow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRemoveRow.Location = new System.Drawing.Point(84, 15);
+            this.btnRemoveRow.Name = "btnRemoveRow";
+            this.btnRemoveRow.Size = new System.Drawing.Size(94, 79);
+            this.btnRemoveRow.TabIndex = 9;
+            this.btnRemoveRow.Text = "Verwijder Record";
+            this.btnRemoveRow.UseVisualStyleBackColor = true;
+            this.btnRemoveRow.Click += new System.EventHandler(this.btnRemoveRow_Click);
+            // 
+            // cbxTypeof
+            // 
+            this.cbxTypeof.FormattingEnabled = true;
+            this.cbxTypeof.Location = new System.Drawing.Point(6, 46);
+            this.cbxTypeof.Name = "cbxTypeof";
+            this.cbxTypeof.Size = new System.Drawing.Size(172, 21);
+            this.cbxTypeof.TabIndex = 15;
+            // 
             // CsvEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1320, 706);
+            this.ClientSize = new System.Drawing.Size(1320, 710);
+            this.Controls.Add(this.gbxRemoveRow);
             this.Controls.Add(this.gbxRemoveColumn);
             this.Controls.Add(this.gbxExport);
             this.Controls.Add(this.gbxAddColumn);
@@ -267,7 +303,7 @@ namespace CsvEditor
             this.Controls.Add(this.txtCsvFile);
             this.Controls.Add(this.lblCsvFile);
             this.Controls.Add(this.dgvCsvFile);
-            this.MinimumSize = new System.Drawing.Size(950, 500);
+            this.MinimumSize = new System.Drawing.Size(950, 600);
             this.Name = "CsvEditor";
             this.Text = "CSV Editor";
             ((System.ComponentModel.ISupportInitialize)(this.dgvCsvFile)).EndInit();
@@ -276,6 +312,7 @@ namespace CsvEditor
             this.gbxExport.ResumeLayout(false);
             this.gbxExport.PerformLayout();
             this.gbxRemoveColumn.ResumeLayout(false);
+            this.gbxRemoveRow.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -301,6 +338,9 @@ namespace CsvEditor
         private System.Windows.Forms.GroupBox gbxAddColumn;
         private System.Windows.Forms.GroupBox gbxExport;
         private System.Windows.Forms.GroupBox gbxRemoveColumn;
+        private System.Windows.Forms.GroupBox gbxRemoveRow;
+        private System.Windows.Forms.Button btnRemoveRow;
+        private System.Windows.Forms.ComboBox cbxTypeof;
     }
 }
 
