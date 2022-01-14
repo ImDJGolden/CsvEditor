@@ -320,71 +320,76 @@ namespace CsvEditor
         }
 
         //TODO
-        //public static void ExportCsvFileHeader(DataGridView dgv, string delimiter) //Export with headers.
-        //{
-        //    string path = "";
-        //    StreamWriter sw = null;
+        public static void ExportCsvFileHeader(DataGridView dgv, string delimiter) //Export with headers.
+        {
+            string path = "";
+            StreamWriter sw = null;
 
-        //    SaveFileDialog sfd = new SaveFileDialog();
-        //    sfd.Filter = "CSV|*.csv";
-        //    sfd.FileName = "OutputCsv.csv";
-        //    sfd.Title = "CSV-bestand opslaan";
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "CSV|*.csv";
+            sfd.FileName = "OutputCsv.csv";
+            sfd.Title = "CSV-bestand opslaan";
 
-        //    try
-        //    {
-        //        if (sfd.ShowDialog() == DialogResult.OK)
-        //        {
-        //            path = sfd.FileName;
+            try
+            {
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    path = sfd.FileName;
 
-        //            if (Csv.xData.Rows.Count != 0)
-        //            {
-        //                // *** Get Columns in order of DGV ***
-        //                List<DataGridViewColumn> columns = new List<DataGridViewColumn>();
-        //                List<string> columnsInOrder = new List<string>();
-        //                List<string> csvExportLines = new List<string>();
+                    if (Csv.xData.Rows.Count != 0)
+                    {
+                        // *** Get Columns in order of DGV ***
+                        List<DataGridViewColumn> columns = new List<DataGridViewColumn>();
+                        List<string> columnsInOrder = new List<string>();
+                        List<string> csvExportLines = new List<string>();
 
-        //                foreach (DataGridViewColumn c in dgv.Columns)
-        //                {
-        //                    columns.Add(c);
-        //                }
+                        foreach (DataGridViewColumn c in dgv.Columns)
+                        {
+                            columns.Add(c);
+                        }
 
-        //                columns = columns.OrderBy(c => c.DisplayIndex).ToList();
+                        columns = columns.OrderBy(c => c.DisplayIndex).ToList();
 
-        //                csvExportLines.Add(string.Join(delimiter, columns.ToArray()));
+                        foreach (DataGridViewColumn c in columns)
+                        {
+                            columnsInOrder.Add(c.HeaderText);
+                        }
 
-        //                foreach (DataGridViewRow r in dgv.Rows)
-        //                {
-        //                    List<string> rowsInOrder = new List<string>();
+                        csvExportLines.Add(string.Join(delimiter, columnsInOrder.ToArray()));
 
-        //                    foreach (DataGridViewColumn c in columns)
-        //                    {
-        //                        if (!r.IsNewRow)
-        //                        {
-        //                            rowsInOrder.Add(r.Cells[c.Index].Value.ToString());
-        //                        }
-        //                    }
+                        foreach (DataGridViewRow r in dgv.Rows)
+                        {
+                            List<string> rowsInOrder = new List<string>();
 
-        //                    csvExportLines.Add(string.Join(delimiter, rowsInOrder.ToArray()));
-        //                }
+                            foreach (DataGridViewColumn c in columns)
+                            {
+                                if (!r.IsNewRow)
+                                {
+                                    rowsInOrder.Add(r.Cells[c.Index].Value.ToString());
+                                }
+                            }
 
-        //                sw = File.AppendText(path);
+                            csvExportLines.Add(string.Join(delimiter, rowsInOrder.ToArray()));
+                        }
 
-        //                for (int i = 0; i < csvExportLines.Count - 1; i++)
-        //                {
-        //                    sw.WriteLine(csvExportLines[i]);
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //    finally
-        //    {
-        //        sw.Close();
-        //    }
-        //}
+                        sw = File.AppendText(path);
+
+                        for (int i = 0; i < csvExportLines.Count - 1; i++)
+                        {
+                            sw.WriteLine(csvExportLines[i]);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                sw.Close();
+            }
+        }
 
         #endregion
     }

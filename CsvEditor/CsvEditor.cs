@@ -25,7 +25,6 @@ namespace CsvEditor
         }
 
         #region Buttons
-
         private void btnImportFile_Click(object sender, EventArgs e)
         {
             try
@@ -90,7 +89,7 @@ namespace CsvEditor
 
                 if (result == DialogResult.Yes)
                 {
-
+                    ImportExport.ExportCsvFileHeader(dgvCsvFile, cbxSeperator.SelectedValue.ToString());
                 }
                 else if (result == DialogResult.No)
                 {
@@ -161,11 +160,9 @@ namespace CsvEditor
                 btnMerge.Enabled = false;
             }
         }
-
         #endregion
 
         #region Extra
-
         public void RemoveText(object sender, EventArgs e)
         {
             if (txtAddColumn.Text == "\"kolom naam...\"")
@@ -181,8 +178,6 @@ namespace CsvEditor
                 txtAddColumn.Text = "\"kolom naam...\"";
             }
         }
-
-
         #endregion
 
         
