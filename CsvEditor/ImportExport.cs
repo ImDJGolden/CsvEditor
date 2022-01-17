@@ -13,7 +13,6 @@ namespace CsvEditor
     class ImportExport
     {
         #region Import
-
         public static DataTable ImportCSVheader(string filename) //Read data in CSV file (with headers)
         {
             DataTable dtImport = new DataTable();
@@ -251,29 +250,32 @@ namespace CsvEditor
                 throw;
             }
         }
-
         #endregion
 
         #region Export
-
+        public static CsvEditor baseClass = new CsvEditor();
+        
+        //Todo: Progressbar and copy to 'ExportCsvFileHeader'
         public static void ExportCsvFileNoHeader(DataGridView dgv, string delimiter) //Export without headers.
         {
-            string path = "";
-            StreamWriter sw = null;
-
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "CSV|*.csv";
-            sfd.FileName = "OutputCsv.csv";
+            sfd.FileName = $"CsvEditorOutput_{DateTime.Now:yyyyMMddHHmmss}.csv";
             sfd.Title = "CSV-bestand opslaan";
 
-            try
-            {
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    path = sfd.FileName;
+            string path = "";
 
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                path = sfd.FileName;
+                StreamWriter sw = null;
+
+                try
+                {
                     if (Csv.xData.Rows.Count != 0)
                     {
+                        //baseClass.SetProgress(dgv.Rows.Count);
+
                         // *** Get Columns in order of DGV ***
                         List<DataGridViewColumn> columnsInOrder = new List<DataGridViewColumn>();
                         List<string> csvExportLines = new List<string>();
@@ -298,6 +300,7 @@ namespace CsvEditor
                             }
 
                             csvExportLines.Add(string.Join(delimiter, rowsInOrder.ToArray()));
+                            //baseClass.SetProgress();
                         }
 
                         sw = File.AppendText(path);
@@ -308,26 +311,25 @@ namespace CsvEditor
                         }
                     }
                 }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                sw.Close();
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    sw.Close();
+                }
             }
         }
 
-        //TODO
         public static void ExportCsvFileHeader(DataGridView dgv, string delimiter) //Export with headers.
         {
             string path = "";
-            StreamWriter sw = null;
+            StreamWriter sw = new StreamWriter(path);
 
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "CSV|*.csv";
-            sfd.FileName = "OutputCsv.csv";
+            sfd.FileName = $"CsvEditorOutput_{DateTime.Now:yyyyMMddHHmmss}.csv";
             sfd.Title = "CSV-bestand opslaan";
 
             try
@@ -390,7 +392,6 @@ namespace CsvEditor
                 sw.Close();
             }
         }
-
         #endregion
     }
 }

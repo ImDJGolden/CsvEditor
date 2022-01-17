@@ -20,16 +20,16 @@ namespace CsvEditor
         {
             InitializeComponent();
 
+            txtAddColumn.Text = placeholderNewColumn;
+
             //Dropdown Delimiter -> Export to csv
             cbxSeperator.DataSource = Csv.xDelimiter;
             cbxSeperator.DropDownStyle = ComboBoxStyle.DropDownList;
             cbxSeperator.SelectedIndex = 1;
 
             //Dropdown Type -> New Column
-            cbxTypeof.DataSource = Enum.GetValues(typeof(Csv.xDataTypes));
+            cbxTypeof.DataSource = Csv.xDataTypes;
             cbxTypeof.DropDownStyle = ComboBoxStyle.DropDownList;
-
-            txtAddColumn.Text = placeholderNewColumn;
         }
 
         #region Buttons
@@ -61,6 +61,7 @@ namespace CsvEditor
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Write(ex.Message);
             }
         }  
 
@@ -86,6 +87,7 @@ namespace CsvEditor
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Write(ex.Message);
             }
         }
 
@@ -111,46 +113,55 @@ namespace CsvEditor
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Write(ex.Message);
             }
         }
 
         private void btnAddColumn_Click(object sender, EventArgs e)
         {
-            if (Csv.xData == null)
+            try
             {
-                Csv.xData = new DataTable();
-            }
-
-            if (txtAddColumn.Text != placeholderNewColumn)
-            {
-                switch (cbxTypeof.SelectedValue.ToString())
+                if (Csv.xData == null)
                 {
-                    case "Tekst":           //String
-                        Csv.xData.Columns.Add(txtAddColumn.Text, typeof(string));
-                        break;
-                    case "Nummer":          //Integer
-                        Csv.xData.Columns.Add(txtAddColumn.Text, typeof(int));
-                        break;
-                    case "Decimaal":        //Double
-                        Csv.xData.Columns.Add(txtAddColumn.Text, typeof(double));
-                        break;
-                    case "Datumtijd":       //DateTime
-                        Csv.xData.Columns.Add(txtAddColumn.Text, typeof(DateTime));
-                        break;
-                    case "Boolean":         //Boolean
-                        Csv.xData.Columns.Add(txtAddColumn.Text, typeof(bool));
-                        break;
-                    default:                //Default case
-                        Csv.xData.Columns.Add(txtAddColumn.Text);
-                        break;
+                    Csv.xData = new DataTable();
                 }
 
-                dgvCsvFile.DataSource = Csv.xData;
-                txtAddColumn.Text = placeholderNewColumn;
+                if (txtAddColumn.Text != placeholderNewColumn)
+                {
+                    switch (cbxTypeof.SelectedValue.ToString())
+                    {
+                        case "Tekst":           //String
+                            Csv.xData.Columns.Add(txtAddColumn.Text, typeof(string));
+                            break;
+                        case "Nummeriek":          //Integer
+                            Csv.xData.Columns.Add(txtAddColumn.Text, typeof(int));
+                            break;
+                        case "Decimaal":        //Double
+                            Csv.xData.Columns.Add(txtAddColumn.Text, typeof(double));
+                            break;
+                        case "Datumtijd":       //DateTime
+                            Csv.xData.Columns.Add(txtAddColumn.Text, typeof(DateTime));
+                            break;
+                        case "Boolean":         //Boolean
+                            Csv.xData.Columns.Add(txtAddColumn.Text, typeof(bool));
+                            break;
+                        default:                //Default case
+                            Csv.xData.Columns.Add(txtAddColumn.Text);
+                            break;
+                    }
+
+                    dgvCsvFile.DataSource = Csv.xData;
+                    txtAddColumn.Text = placeholderNewColumn;
+                }
+                else
+                {
+                    MessageBox.Show("Vul eerst een kolom naam.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Vul eerst een kolom naam.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Write(ex.Message);
             }
         }
 
@@ -161,10 +172,18 @@ namespace CsvEditor
 
             DialogResult result = MessageBox.Show($"Bent u zeker dat u de kolom \"{colName}\" wilt verwijderen?", "Verwijderen", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if (result == DialogResult.Yes)
+            try
             {
-                Csv.xData.Columns.RemoveAt(colIndex);
-                dgvCsvFile.DataSource = Csv.xData;
+                if (result == DialogResult.Yes)
+                {
+                    Csv.xData.Columns.RemoveAt(colIndex);
+                    dgvCsvFile.DataSource = Csv.xData;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Write(ex.Message);
             }
         }
 
@@ -174,10 +193,18 @@ namespace CsvEditor
 
             DialogResult result = MessageBox.Show($"Bent u zeker dat u record \"{rowIndex + 1}\" wilt verwijderen?", "Verwijderen", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if (result == DialogResult.Yes)
+            try
             {
-                dgvCsvFile.Rows.RemoveAt(rowIndex);
-                lblRecords.Text = Csv.xData.Rows.Count.ToString();
+                if (result == DialogResult.Yes)
+                {
+                    dgvCsvFile.Rows.RemoveAt(rowIndex);
+                    lblRecords.Text = Csv.xData.Rows.Count.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Write(ex.Message);
             }
         }
 
@@ -198,6 +225,7 @@ namespace CsvEditor
         #endregion
 
         #region Extra
+        // *** Placeholder txtNewColumn ***
         public void RemoveText(object sender, EventArgs e)
         {
             if (txtAddColumn.Text == placeholderNewColumn)
@@ -213,8 +241,17 @@ namespace CsvEditor
                 txtAddColumn.Text = placeholderNewColumn;
             }
         }
+
+        // *** Update Progressbar ***
+        public void SetProgress()
+        {
+            pgbStatus.Value += 1;
+        }
+
+        public void SetProgress(int Maximum)
+        {
+            pgbStatus.Maximum = Maximum;
+        }
         #endregion
-
-
     }
 }

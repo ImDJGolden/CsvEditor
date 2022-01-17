@@ -45,11 +45,11 @@ namespace CsvEditor
             this.cbxSeperator = new System.Windows.Forms.ComboBox();
             this.txtAddColumn = new System.Windows.Forms.TextBox();
             this.gbxAddColumn = new System.Windows.Forms.GroupBox();
+            this.cbxTypeof = new System.Windows.Forms.ComboBox();
             this.gbxExport = new System.Windows.Forms.GroupBox();
             this.gbxRemoveColumn = new System.Windows.Forms.GroupBox();
             this.gbxRemoveRow = new System.Windows.Forms.GroupBox();
             this.btnRemoveRow = new System.Windows.Forms.Button();
-            this.cbxTypeof = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCsvFile)).BeginInit();
             this.gbxAddColumn.SuspendLayout();
             this.gbxExport.SuspendLayout();
@@ -231,6 +231,14 @@ namespace CsvEditor
             this.gbxAddColumn.TabStop = false;
             this.gbxAddColumn.Text = "Kolom toevoegen";
             // 
+            // cbxTypeof
+            // 
+            this.cbxTypeof.FormattingEnabled = true;
+            this.cbxTypeof.Location = new System.Drawing.Point(6, 46);
+            this.cbxTypeof.Name = "cbxTypeof";
+            this.cbxTypeof.Size = new System.Drawing.Size(172, 21);
+            this.cbxTypeof.TabIndex = 15;
+            // 
             // gbxExport
             // 
             this.gbxExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -276,14 +284,6 @@ namespace CsvEditor
             this.btnRemoveRow.Text = "Verwijder Record";
             this.btnRemoveRow.UseVisualStyleBackColor = true;
             this.btnRemoveRow.Click += new System.EventHandler(this.btnRemoveRow_Click);
-            // 
-            // cbxTypeof
-            // 
-            this.cbxTypeof.FormattingEnabled = true;
-            this.cbxTypeof.Location = new System.Drawing.Point(6, 46);
-            this.cbxTypeof.Name = "cbxTypeof";
-            this.cbxTypeof.Size = new System.Drawing.Size(172, 21);
-            this.cbxTypeof.TabIndex = 15;
             // 
             // CsvEditor
             // 

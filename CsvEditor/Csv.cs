@@ -9,10 +9,10 @@ namespace CsvEditor
 {
     public static class Csv
     {
+        public static string[] xDelimiter = { ",", ";" };
+        public static string[] xDataTypes = { "Kies een datatype...", "-------------------------------", "Tekst", "Nummeriek", "Decimaal", "Datumtijd", "Boolean" };
+
         public static string xFilename { get; set; }
         public static DataTable xData { get; set; }
-        public enum xDataTypes { Tekst, Nummer, Decimaal, Datumtijd, Boolean}
-
-        public static string[] xDelimiter = { ",", ";" };
     }
 }
