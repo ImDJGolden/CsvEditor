@@ -95,17 +95,8 @@ namespace CsvEditor
         {
             try
             {
-                DialogResult result = MessageBox.Show("Exporteren met of zonder headers? \n\nYes: Met headers. \nNo: zonder headers.", "Export.", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    ImportExport.ExportCsvFileHeader(dgvCsvFile, cbxSeperator.SelectedValue.ToString());
-                }
-                else if (result == DialogResult.No)
-                {
-                    ImportExport.ExportCsvFileNoHeader(dgvCsvFile, cbxSeperator.SelectedValue.ToString());
-                }
-
+                ImportExport.ExportCsvFileHeader(dgvCsvFile, cbxSeperator.SelectedValue.ToString());
+             
                 dgvCsvFile.Refresh();
                 txtCsvFile.Text = Csv.xFilename;
                 lblRecords.Text = Csv.xData.Rows.Count.ToString();
@@ -241,6 +232,7 @@ namespace CsvEditor
                 txtAddColumn.Text = placeholderNewColumn;
             }
         }
+
 
         // *** Update Progressbar ***
         public void SetProgress()
