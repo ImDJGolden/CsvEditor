@@ -255,25 +255,26 @@ namespace CsvEditor
         #region Export
         public static CsvEditor baseClass = new CsvEditor();
         
-        //Todo: Progressbar and copy to 'ExportCsvFileHeader'
         public static void ExportCsvFileHeader(DataGridView dgv, string delimiter) //Export with headers.
         {
-            string path = "";
-            StreamWriter sw = new StreamWriter(path);
-
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "CSV|*.csv";
             sfd.FileName = $"CsvEditorOutput_{DateTime.Now:yyyyMMddHHmmss}.csv";
-            sfd.Title = "CSV-bestand opslaan";
+            sfd.Title = "CSV-bestand opslaan";   
 
-            try
+            if (sfd.ShowDialog() == DialogResult.OK)
             {
-                if (sfd.ShowDialog() == DialogResult.OK)
+                string path = "";
+                StreamWriter sw = null;
+
+                try
                 {
                     path = sfd.FileName;
 
                     if (Csv.xData.Rows.Count != 0)
                     {
+                        //baseClass.SetProgress(dgv.Rows.Count);
+
                         // *** Get Columns in order of DGV ***
                         List<DataGridViewColumn> columns = new List<DataGridViewColumn>();
                         List<string> columnsInOrder = new List<string>();
@@ -306,6 +307,7 @@ namespace CsvEditor
                             }
 
                             csvExportLines.Add(string.Join(delimiter, rowsInOrder.ToArray()));
+                            //baseClass.SetProgress();
                         }
 
                         sw = File.AppendText(path);
@@ -316,14 +318,14 @@ namespace CsvEditor
                         }
                     }
                 }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                sw.Close();
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    sw.Close();
+                }
             }
         }
         #endregion

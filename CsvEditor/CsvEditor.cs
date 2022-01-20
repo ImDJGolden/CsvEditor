@@ -124,7 +124,7 @@ namespace CsvEditor
                         case "Tekst":           //String
                             Csv.xData.Columns.Add(txtAddColumn.Text, typeof(string));
                             break;
-                        case "Nummeriek":          //Integer
+                        case "Nummeriek":       //Integer
                             Csv.xData.Columns.Add(txtAddColumn.Text, typeof(int));
                             break;
                         case "Decimaal":        //Double
@@ -215,6 +215,7 @@ namespace CsvEditor
         }
         #endregion
 
+
         #region Extra
         // *** Placeholder txtNewColumn ***
         public void RemoveText(object sender, EventArgs e)
@@ -224,7 +225,6 @@ namespace CsvEditor
                 txtAddColumn.Text = "";
             }
         }
-
         public void AddText(object sender, EventArgs e) 
         {
             if (string.IsNullOrWhiteSpace(txtAddColumn.Text))
@@ -233,13 +233,11 @@ namespace CsvEditor
             }
         }
 
-
         // *** Update Progressbar ***
         public void SetProgress()
         {
             pgbStatus.Value += 1;
         }
-
         public void SetProgress(int Maximum)
         {
             pgbStatus.Maximum = Maximum;

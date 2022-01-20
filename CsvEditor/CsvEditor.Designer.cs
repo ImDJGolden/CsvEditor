@@ -199,11 +199,9 @@ namespace CsvEditor
             // 
             this.cbxSeperator.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbxSeperator.DropDownHeight = 110;
-            this.cbxSeperator.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cbxSeperator.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbxSeperator.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbxSeperator.FormattingEnabled = true;
-            this.cbxSeperator.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cbxSeperator.IntegralHeight = false;
             this.cbxSeperator.Location = new System.Drawing.Point(103, 18);
             this.cbxSeperator.Name = "cbxSeperator";
             this.cbxSeperator.Size = new System.Drawing.Size(75, 23);
