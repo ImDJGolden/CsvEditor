@@ -15,12 +15,14 @@ namespace CsvEditor
     public partial class CsvEditor : Form
     {
         public string placeholderNewColumn = "\"kolom naam...\"";
+        public string placeholderRenameColumn = "\"Nieuwe kolom naam...\"";
 
         public CsvEditor()
         {
             InitializeComponent();
 
             txtAddColumn.Text = placeholderNewColumn;
+            txtRenameColumn.Text = placeholderRenameColumn;
 
             //Dropdown Delimiter -> Export to csv
             cbxSeperator.DataSource = Csv.xDelimiter;
@@ -96,6 +98,8 @@ namespace CsvEditor
             try
             {
                 ImportExport.ExportCsvFileHeader(dgvCsvFile, cbxSeperator.SelectedValue.ToString());
+
+                MessageBox.Show("Alle data is succesvol geëxporteerd.", "Export Complete!", MessageBoxButtons.OK, MessageBoxIcon.Information);
              
                 dgvCsvFile.Refresh();
                 txtCsvFile.Text = Csv.xFilename;
@@ -146,13 +150,43 @@ namespace CsvEditor
                 }
                 else
                 {
-                    MessageBox.Show("Vul eerst een kolom naam.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Vul eerst een kolom naam in.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Log.Write(ex.Message);
+            }
+        }
+
+        private void btnRenameColumn_Click(object sender, EventArgs e)
+        {
+            int colIndex = dgvCsvFile.CurrentCell.ColumnIndex;
+            string colName = dgvCsvFile.Columns[colIndex].HeaderText;
+
+            if (txtRenameColumn.Text != placeholderRenameColumn)
+            {
+                if (txtRenameColumn.Text != colName)
+                {
+                    DialogResult result = MessageBox.Show($"Bent u zeker dat u de kolom \"{colName}\" wilt hernoemen naar \"{txtRenameColumn.Text}\"?", "Verwijderen", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        Csv.xData.Columns[colIndex].ColumnName = txtRenameColumn.Text;
+                    }
+
+                    dgvCsvFile.DataSource = Csv.xData;
+                    txtRenameColumn.Text = placeholderRenameColumn;
+                }
+                else
+                {
+                    MessageBox.Show("Vul eerst een nieuwe kolom naam in.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vul eerst een nieuwe kolom naam in.", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -218,29 +252,41 @@ namespace CsvEditor
 
         #region Extra
         // *** Placeholder txtNewColumn ***
-        public void RemoveText(object sender, EventArgs e)
+        public void RemoveTextNewColumn(object sender, EventArgs e)
         {
+            txtAddColumn.ForeColor = Color.Black;
+
             if (txtAddColumn.Text == placeholderNewColumn)
             {
                 txtAddColumn.Text = "";
             }
         }
-        public void AddText(object sender, EventArgs e) 
+        public void AddTextNewColumn(object sender, EventArgs e) 
         {
             if (string.IsNullOrWhiteSpace(txtAddColumn.Text))
             {
+                txtAddColumn.ForeColor = Color.Gray;
                 txtAddColumn.Text = placeholderNewColumn;
             }
         }
 
-        // *** Update Progressbar ***
-        public void SetProgress()
+        // *** Placeholder txtRenameColumn ***
+        private void RemoveTextRenameColumn(object sender, EventArgs e)
         {
-            pgbStatus.Value += 1;
+            txtRenameColumn.ForeColor = Color.Black;
+
+            if (txtRenameColumn.Text == placeholderRenameColumn)
+            {
+                txtRenameColumn.Text = "";
+            }
         }
-        public void SetProgress(int Maximum)
+        private void AddTextRenameColumn(object sender, EventArgs e)
         {
-            pgbStatus.Maximum = Maximum;
+            if (string.IsNullOrWhiteSpace(txtRenameColumn.Text))
+            {
+                txtRenameColumn.ForeColor = Color.Gray;
+                txtRenameColumn.Text = placeholderRenameColumn;
+            }
         }
         #endregion
     }

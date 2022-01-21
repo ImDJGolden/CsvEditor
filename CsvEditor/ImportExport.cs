@@ -253,8 +253,6 @@ namespace CsvEditor
         #endregion
 
         #region Export
-        public static CsvEditor baseClass = new CsvEditor();
-        
         public static void ExportCsvFileHeader(DataGridView dgv, string delimiter) //Export with headers.
         {
             SaveFileDialog sfd = new SaveFileDialog();
@@ -273,8 +271,6 @@ namespace CsvEditor
 
                     if (Csv.xData.Rows.Count != 0)
                     {
-                        //baseClass.SetProgress(dgv.Rows.Count);
-
                         // *** Get Columns in order of DGV ***
                         List<DataGridViewColumn> columns = new List<DataGridViewColumn>();
                         List<string> columnsInOrder = new List<string>();
@@ -307,7 +303,6 @@ namespace CsvEditor
                             }
 
                             csvExportLines.Add(string.Join(delimiter, rowsInOrder.ToArray()));
-                            //baseClass.SetProgress();
                         }
 
                         sw = File.AppendText(path);
